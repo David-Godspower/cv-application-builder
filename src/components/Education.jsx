@@ -1,87 +1,68 @@
 import { useState } from "react";
 
 function Education() {
-  const [eduData, setEduData] = useState({
-    schoolName: "",
-    courseOfStudy: "",
-    dateOfStudy: "",
-    isSubmitted: false,
+  const [educations, setEducations] = useState([]);
+  
+  const [currentEdu, setCurrentEdu] = useState({
+    institutionName: "",
+    degree: "",
+    fieldOfStudy: "",
+    dateFrom: "",
+    dateTo: "",
+    id: Date.now()
   });
-  function handleChange(event) {
-    const { name, value } = event.target;
-    setEduData({
-      ...eduData,
-      [name]: value,
-    });
-  }
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    setEduData({ ...eduData, isSubmitted: true });
-  }
+  const [isAdding, setIsAdding] = useState(true);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setCurrentEdu({ ...currentEdu, [name]: value });
+  };
+
+  const handleAddEducation = (e) => {
+    e.preventDefault();
+    setEducations([...educations, currentEdu]);
+    setCurrentEdu({
+      institutionName: "",
+      degree: "",
+      fieldOfStudy: "",
+      dateFrom: "",
+      dateTo: "",
+      id: Date.now()
+    });
+    setIsAdding(false);
+  };
 
   return (
-    <div>
-      <section>
-        <h2>Education Background</h2>
-        <p>
-          This is where we will collect your school name, course of Study and
-          Date
-        </p>
-        {eduData.isSubmitted ? (
-          <div className="preview">
-            <p>
-              <strong>School Name: </strong>
-              {eduData.schoolName}
-            </p>
-            <p>
-              <strong>Course of Study:</strong>
-              {eduData.courseOfStudy}
-            </p>
-            <p>
-              <strong>Date of Study:</strong>
-              {eduData.dateOfStudy}
-            </p>
-
-            <button
-              type="button"
-              onClick={() => setEduData({ ...eduData, isSubmitted: false })}
-            >
-              Edit Information
-            </button>
+    <section>
+      <h2>Education</h2>
+      <div className="education-list">
+        {educations.map((edu) => (
+          <div key={edu.id} className="preview-block">
+            <h3>Institution: {edu.institutionName}</h3>
+            <p>Degree: {edu.degree}</p>
+            <p>Field of Study: {edu.fieldOfStudy}</p>
+            <p>Date: {edu.dateFrom} - {edu.dateTo}</p>
+            <button onClick={() => setIsAdding(true)}>Edit</button>
           </div>
-        ) : (
-          <form onSubmit={handleSubmit}>
-            <label htmlFor="schoolName">School Name:</label>
-            <input
-              type="text"
-              name="schoolName"
-              value={eduData.schoolName}
-              onChange={handleChange}
-              required
-            />
-            <label htmlFor="courseOfStudy">Course of Study:</label>
-            <input
-              type="text"
-              name="courseOfStudy"
-              value={eduData.courseOfStudy}
-              onChange={handleChange}
-              required
-            />
-            <label htmlFor="dateOfStudy">Date of Study:</label>
-            <input
-              type="date"
-              name="dateOfStudy"
-              value={eduData.dateOfStudy}
-              onChange={handleChange}
-              required
-            />
+        ))}
+      </div>
 
-            <button type="submit">Submit</button>
-          </form>
-        )}
-      </section>
-    </div>
+      {isAdding && (
+        <form onSubmit={handleAddEducation}>
+          <input type="text" name="institutionName" value={currentEdu.institutionName} onChange={handleChange} placeholder="Institution" required />
+          <input type="text" name="degree" value={currentEdu.degree} onChange={handleChange} placeholder="Degree" required />
+          <input type="text" name="fieldOfStudy" value={currentEdu.fieldOfStudy} onChange={handleChange} placeholder="Field of Study" required />
+          <input type="date" name="dateFrom" value={currentEdu.dateFrom} onChange={handleChange} placeholder="From" required />
+          <input type="date" name="dateTo" value={currentEdu.dateTo} onChange={handleChange} placeholder="To" required />
+          <button type="submit">Save Education</button>
+        </form>
+      )}
+      
+      {!isAdding && (
+        <button onClick={() => setIsAdding(true)}>+ Add Another Education</button>
+      )}
+    </section>
   );
 }
 
