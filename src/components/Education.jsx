@@ -50,9 +50,9 @@ function Education() {
             <p>Degree: {edu.degree}</p>
             <p>Field of Study: {edu.fieldOfStudy}</p>
             <p>Date: {formatDate(edu.dateFrom)} - {formatDate(edu.dateTo)}</p>
-            <button onClick={() => {setCurrentEdu(edu); const filteredList = educations.filter(item => item.id !== edu.id);
+            <button className="edit-button" onClick={() => {setCurrentEdu(edu); const filteredList = educations.filter(item => item.id !== edu.id);
               setEducations(filteredList); setIsAdding(true);}}>Edit</button>
-            <button onClick={() => setEducations(educations.filter(item => item.id !== edu.id))}>
+            <button className="delete-btn" onClick={() => setEducations(educations.filter(item => item.id !== edu.id))}>
                 Delete
             </button>
           </div>
