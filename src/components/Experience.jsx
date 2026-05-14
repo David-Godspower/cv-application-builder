@@ -8,20 +8,12 @@ const initialExperienceState = {
   dateFrom: "",
   dateTo: "",
 };
-
-function Experience() {
-  const [experiences, setExperiences] = useState([]);
+function Experience({ items, setItems }) {
   
   const [currentExp, setCurrentExp] = useState({
     ...initialExperienceState,
     id: Date.now()
   });
-
-  const formatDate = (dateString) => {
-    if (!dateString) return "";
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
-  };
 
   const [isAdding, setIsAdding] = useState(true);
 
@@ -32,12 +24,13 @@ function Experience() {
 
   const handleAddExperience = (e) => {
     e.preventDefault();
-    const exists = experiences.find(exp => exp.id === currentExp.id);
+    
+    const exists = items.find(exp => exp.id === currentExp.id);
   
     if (exists) {
-      setExperiences(experiences.map(item => item.id === currentExp.id ? currentExp : item));
+      setItems(items.map(item => item.id === currentExp.id ? currentExp : item));
     } else {
-      setExperiences([...experiences, currentExp]);
+      setItems([...items, currentExp]);
     }
 
     setCurrentExp({ ...initialExperienceState, id: Date.now() });
@@ -45,31 +38,22 @@ function Experience() {
   };
 
   return (
-    <section>
+    <section className="editor-section">
       <h2>Practical Experience</h2>
-      <div className="experience-list">
-        {experiences.map((exp) => (
-          <div key={exp.id} className="preview-block">
-            <div className="preview-header">
-              <h3 className="primary-title">{exp.companyName}</h3>
-              <span className="date-display">
-                {formatDate(exp.dateFrom)} — {formatDate(exp.dateTo)}
-              </span>
-            </div>
-            
-            <div className="preview-subheader">
-              <p className="secondary-title">{exp.positionTitle}</p>
-            </div>
-            
-            <p className="description-text">{exp.mainResponsibilities}</p>
 
+      <div className="experience-list-admin">
+        {items.map((exp) => (
+          <div key={exp.id} className="admin-item-card">
+            <p><strong>{exp.companyName}</strong> - {exp.positionTitle}</p>
             <div className="admin-controls">
-              <button className="edit-button" onClick={() => { setCurrentExp(exp); setIsAdding(true); }}>
-                Edit
-              </button>
-              <button className="delete-btn" onClick={() => setExperiences(experiences.filter(item => item.id !== exp.id))}>
-                Delete
-              </button>
+              <button className="edit-button" onClick={() => { 
+                setCurrentExp(exp); 
+                setIsAdding(true); 
+              }}>Edit</button>
+              
+              <button className="delete-btn" onClick={() => 
+                setItems(items.filter(item => item.id !== exp.id))
+              }>Delete</button>
             </div>
           </div>
         ))}
@@ -78,32 +62,35 @@ function Experience() {
       {isAdding && (
         <form onSubmit={handleAddExperience}>
           <label htmlFor="companyName">Company Name:</label>
-          <input id="companyName" type="text" name="companyName" value={currentExp.companyName} onChange={handleChange} placeholder="Company" required />
+          <input id="companyName" type="text" name="companyName" value={currentExp.companyName} onChange={handleChange} placeholder="e.g. Oyo State Bureau of ICT" required />
           
           <label htmlFor="positionTitle">Position Title:</label>
-          <input id="positionTitle" type="text" name="positionTitle" value={currentExp.positionTitle} onChange={handleChange} placeholder="Position" required />
+          <input id="positionTitle" type="text" name="positionTitle" value={currentExp.positionTitle} onChange={handleChange} placeholder="e.g. ICT Unit Intern" required />
           
           <label htmlFor="mainResponsibilities">Main Responsibilities:</label>
-          <textarea id="mainResponsibilities" name="mainResponsibilities" value={currentExp.mainResponsibilities} onChange={handleChange} placeholder="Responsibilities" required />
+          <textarea id="mainResponsibilities" name="mainResponsibilities" value={currentExp.mainResponsibilities} onChange={handleChange} placeholder="What did you achieve?" required />
           
-          <label htmlFor="dateFrom">From:</label>
-          <input id="dateFrom" type="date" name="dateFrom" value={currentExp.dateFrom} onChange={handleChange} required />
+          <div className="form-row">
+            <div>
+              <label htmlFor="dateFrom">From:</label>
+              <input id="dateFrom" type="date" name="dateFrom" value={currentExp.dateFrom} onChange={handleChange} required />
+            </div>
+            <div>
+              <label htmlFor="dateTo">To:</label>
+              <input id="dateTo" type="date" name="dateTo" value={currentExp.dateTo} onChange={handleChange} required />
+            </div>
+          </div>
           
-          <label htmlFor="dateTo">To:</label>
-          <input id="dateTo" type="date" name="dateTo" value={currentExp.dateTo} onChange={handleChange} required />
-          
-          <button type="submit">Save Experience</button>
+          <button type="submit" className="save-btn">Save Experience</button>
+          {items.length > 0 && (
+            <button type="button" className="cancel-btn" onClick={() => setIsAdding(false)}>Cancel</button>
+          )}
         </form>
       )}
       
-      {(!isAdding || experiences.length === 0) && (
+      {!isAdding && (
         <div className="button-group">
-          {experiences.length === 0 && !isAdding && (
-             <p className="hint-text">No work history added yet.</p>
-          )}
-          {!isAdding && (
-            <button onClick={() => setIsAdding(true)}>+ Add Position</button>
-          )}
+          <button className="add-btn" onClick={() => setIsAdding(true)}>+ Add Work Experience</button>
         </div>
       )}
     </section>
