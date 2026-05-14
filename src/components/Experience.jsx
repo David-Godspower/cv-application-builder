@@ -32,7 +32,6 @@ function Experience() {
 
   const handleAddExperience = (e) => {
     e.preventDefault();
-
     const exists = experiences.find(exp => exp.id === currentExp.id);
   
     if (exists) {
@@ -51,16 +50,27 @@ function Experience() {
       <div className="experience-list">
         {experiences.map((exp) => (
           <div key={exp.id} className="preview-block">
-            <h3>Company Name: {exp.companyName}</h3>
-            <p>Position: {exp.positionTitle}</p>
-            <p>Date: {formatDate(exp.dateFrom)} - {formatDate(exp.dateTo)}</p>
-            <button className="edit-button" onClick={() => { setCurrentExp(exp); setIsAdding(true); }}>
-              Edit
-            </button>
+            <div className="preview-header">
+              <h3 className="primary-title">{exp.companyName}</h3>
+              <span className="date-display">
+                {formatDate(exp.dateFrom)} — {formatDate(exp.dateTo)}
+              </span>
+            </div>
             
-            <button className="delete-btn" onClick={() => setExperiences(experiences.filter(item => item.id !== exp.id))}>
-              Delete
-            </button>
+            <div className="preview-subheader">
+              <p className="secondary-title">{exp.positionTitle}</p>
+            </div>
+            
+            <p className="description-text">{exp.mainResponsibilities}</p>
+
+            <div className="admin-controls">
+              <button className="edit-button" onClick={() => { setCurrentExp(exp); setIsAdding(true); }}>
+                Edit
+              </button>
+              <button className="delete-btn" onClick={() => setExperiences(experiences.filter(item => item.id !== exp.id))}>
+                Delete
+              </button>
+            </div>
           </div>
         ))}
       </div>
