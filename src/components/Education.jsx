@@ -12,6 +12,12 @@ function Education() {
     id: Date.now()
   });
 
+  const formatDate = (dateString) => {
+    if (!dateString) return "";
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US',{month: 'short', year: 'numeric'});
+  };
+
   const [isAdding, setIsAdding] = useState(true);
 
   const handleChange = (e) => {
@@ -42,7 +48,7 @@ function Education() {
             <h3>Institution: {edu.institutionName}</h3>
             <p>Degree: {edu.degree}</p>
             <p>Field of Study: {edu.fieldOfStudy}</p>
-            <p>Date: {edu.dateFrom} - {edu.dateTo}</p>
+            <p>Date: {formatDate(edu.dateFrom)} - {formatDate(edu.dateTo)}</p>
             <button onClick={() => {setCurrentEdu(edu); const filteredList = educations.filter(item => item.id !== edu.id);
               setEducations(filteredList); setIsAdding(true);}}>Edit</button>
             <button onClick={() => setEducations(educations.filter(item => item.id !== edu.id))}>
@@ -67,8 +73,14 @@ function Education() {
           <button type="submit">Save Education</button>
         </form>
       )}
-      
-      {!isAdding && (
+      {educations.length === 0 && !isAdding && (
+        <> 
+          <p className="hint-text">No education history added yet. Click below to add your school!</p>
+          <button onClick={() => setIsAdding(true)}>+ Add Another Education</button>
+        </>
+      )}
+
+      {educations.length > 0 && !isAdding && (
         <button onClick={() => setIsAdding(true)}>+ Add Another Education</button>
       )}
     </section>
