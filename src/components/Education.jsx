@@ -43,17 +43,22 @@ function Education() {
             <p>Degree: {edu.degree}</p>
             <p>Field of Study: {edu.fieldOfStudy}</p>
             <p>Date: {edu.dateFrom} - {edu.dateTo}</p>
-            <button onClick={() => setIsAdding(true)}>Edit</button>
+            <button onClick={() => {setCurrentEdu(edu); setIsAdding(true);}}>Edit</button>
           </div>
         ))}
       </div>
 
       {isAdding && (
         <form onSubmit={handleAddEducation}>
+          <label htmlFor="institutionName">Institution Name:</label>
           <input type="text" name="institutionName" value={currentEdu.institutionName} onChange={handleChange} placeholder="Institution" required />
+          <label htmlFor="degree">Degree:</label>
           <input type="text" name="degree" value={currentEdu.degree} onChange={handleChange} placeholder="Degree" required />
+          <label htmlFor="fieldOfStudy">Field of Study:</label>
           <input type="text" name="fieldOfStudy" value={currentEdu.fieldOfStudy} onChange={handleChange} placeholder="Field of Study" required />
+          <label htmlFor="dateFrom">From:</label>
           <input type="date" name="dateFrom" value={currentEdu.dateFrom} onChange={handleChange} placeholder="From" required />
+          <label htmlFor="dateTo">To:</label>
           <input type="date" name="dateTo" value={currentEdu.dateTo} onChange={handleChange} placeholder="To" required />
           <button type="submit">Save Education</button>
         </form>
