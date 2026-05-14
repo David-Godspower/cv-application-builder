@@ -46,15 +46,31 @@ function Education() {
       <div className="education-list">
         {educations.map((edu) => (
           <div key={edu.id} className="preview-block">
-            <h3>Institution: {edu.institutionName}</h3>
-            <p>Degree: {edu.degree}</p>
-            <p>Field of Study: {edu.fieldOfStudy}</p>
-            <p>Date: {formatDate(edu.dateFrom)} - {formatDate(edu.dateTo)}</p>
-            <button className="edit-button" onClick={() => {setCurrentEdu(edu); const filteredList = educations.filter(item => item.id !== edu.id);
-              setEducations(filteredList); setIsAdding(true);}}>Edit</button>
-            <button className="delete-btn" onClick={() => setEducations(educations.filter(item => item.id !== edu.id))}>
-                Delete
-            </button>
+            <div className="preview-header">
+              <h3 className="primary-title">{edu.institutionName}</h3>
+              <span className="date-display">
+                {formatDate(edu.dateFrom)} — {formatDate(edu.dateTo)}
+              </span>
+            </div>
+            
+            <div className="preview-subheader">
+              <p className="secondary-title">
+                {edu.degree} in {edu.fieldOfStudy}
+              </p>
+            </div>
+
+            <div className="admin-controls">
+              <button className="edit-button" onClick={() => {
+                setCurrentEdu(edu); 
+                const filteredList = educations.filter(item => item.id !== edu.id);
+                setEducations(filteredList); 
+                setIsAdding(true);
+              }}>Edit</button>
+              
+              <button className="delete-btn" onClick={() => 
+                setEducations(educations.filter(item => item.id !== edu.id))
+              }>Delete</button>
+            </div>
           </div>
         ))}
       </div>
@@ -74,15 +90,14 @@ function Education() {
           <button type="submit">Save Education</button>
         </form>
       )}
-      {educations.length === 0 && !isAdding && (
-        <> 
-          <p className="hint-text">No education history added yet. Click below to add your school!</p>
-          <button onClick={() => setIsAdding(true)}>+ Add Another Education</button>
-        </>
-      )}
 
-      {educations.length > 0 && !isAdding && (
-        <button onClick={() => setIsAdding(true)}>+ Add Another Education</button>
+      {!isAdding && (
+        <div className="button-group">
+          {educations.length === 0 && (
+            <p className="hint-text">No education history added yet. Click below to add your school!</p>
+          )}
+          <button onClick={() => setIsAdding(true)}>+ Add Another Education</button>
+        </div>
       )}
     </section>
   );
