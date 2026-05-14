@@ -39,9 +39,9 @@ function Experience() {
       <div className="experience-list">
         {experiences.map((exp) => (
           <div key={exp.id} className="preview-block">
-            <h3>{exp.companyName}</h3>
-            <p>{exp.positionTitle}</p>
-            <p>{exp.dateFrom} - {exp.dateTo}</p>
+            <h3>Company Name: {exp.companyName}</h3>
+            <p>Position: {exp.positionTitle}</p>
+            <p>Date: {exp.dateFrom} - {exp.dateTo}</p>
             <button onClick={() => setIsAdding(true)}>Edit</button>
           </div>
         ))}
