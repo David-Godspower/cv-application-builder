@@ -54,11 +54,11 @@ function Experience() {
             <h3>Company Name: {exp.companyName}</h3>
             <p>Position: {exp.positionTitle}</p>
             <p>Date: {formatDate(exp.dateFrom)} - {formatDate(exp.dateTo)}</p>
-            <button onClick={() => { setCurrentExp(exp); setIsAdding(true); }}>
+            <button className="edit-button" onClick={() => { setCurrentExp(exp); setIsAdding(true); }}>
               Edit
             </button>
             
-            <button onClick={() => setExperiences(experiences.filter(item => item.id !== exp.id))}>
+            <button className="delete-btn" onClick={() => setExperiences(experiences.filter(item => item.id !== exp.id))}>
               Delete
             </button>
           </div>
