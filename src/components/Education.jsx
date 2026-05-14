@@ -64,7 +64,7 @@ function Education({ items, setItems }) {
       {isAdding && (
         <form onSubmit={handleAddEducation}>
           <label htmlFor="institutionName">Institution Name:</label>
-          <input type="text" name="institutionName" value={currentEdu.institutionName} onChange={handleChange} placeholder="e.g. LAUTECH" required />
+          <input type="text" name="institutionName" value={currentEdu.institutionName} onChange={handleChange} placeholder="e.g. Oxford University" required />
           
           <label htmlFor="degree">Degree:</label>
           <input type="text" name="degree" value={currentEdu.degree} onChange={handleChange} placeholder="e.g. B.Tech" required />
