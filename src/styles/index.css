@@ -140,8 +140,33 @@ button.add-btn {
 button.add-btn:hover {
   background-color: rgba(37, 99, 235, 0.05);
 }
+.edit-button {
+  background-color: transparent;
+  color: var(--primary-color);
+  margin-right: 10px;
+  border: 1px solid var(--primary-color);
+  font-weight: 600;
+}
+.edit-button:hover {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+button.delete-btn {
+  color: #dc2626; 
+  background-color: #fef2f2;
+  border-color: #fca5a5;
+}
 
-
+button.delete-btn:hover {
+    background-color: #dc2626;  
+  color: #fef2f2;
+  border-color: #dc2626;
+}
+textarea {
+  min-height: 120px;
+  resize: vertical;
+}
 @media print {
   body {
     background: white;
@@ -160,5 +185,18 @@ button.add-btn:hover {
   section {
     border-bottom: 1px solid #eee;
     page-break-inside: avoid;
+  }
+}
+@media (max-width: 600px) {
+  body {
+    padding: 1rem;
+  }
+
+  .app-container {
+    padding: 1.5rem;
+  }
+  
+  .button-group {
+    flex-direction: column; 
   }
 }
