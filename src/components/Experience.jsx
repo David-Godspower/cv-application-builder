@@ -1,114 +1,67 @@
 import { useState } from "react";
 
 function Experience() {
-  const [expData, setExpData] = useState({
+  const [experiences, setExperiences] = useState([]);
+  
+  const [currentExp, setCurrentExp] = useState({
     companyName: "",
     positionTitle: "",
     mainResponsibilities: "",
     dateFrom: "",
     dateTo: "",
-    isSubmitted: false,
+    id: Date.now()
   });
 
-  function handleChange(event) {
-    const { name, value } = event.target;
-    setExpData({
-      ...expData,
-      [name]: value,
-    });
-  }
+  const [isAdding, setIsAdding] = useState(true);
 
-  function handleSubmit(event) {
-    event.preventDefault();
-    setExpData({ ...expData, isSubmitted: true });
-  }
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setCurrentExp({ ...currentExp, [name]: value });
+  };
+
+  const handleAddExperience = (e) => {
+    e.preventDefault();
+    setExperiences([...experiences, currentExp]);
+    setCurrentExp({
+      companyName: "",
+      positionTitle: "",
+      mainResponsibilities: "",
+      dateFrom: "",
+      dateTo: "",
+      id: Date.now()
+    });
+    setIsAdding(false);
+  };
 
   return (
-    <div>
-      <section>
-        <h2>Experience</h2>
-        <p>
-          This is where we will collect your company name, positon title, start
-          date and end date
-        </p>
-        {expData.isSubmitted ? (
-          <div className="preview">
-            <p>
-              <strong>Company Name: </strong>
-              {expData.companyName}
-            </p>
-            <p>
-              <strong>Position Title:</strong>
-              {expData.positionTitle}
-            </p>
-            <p>
-              <strong>Main Responsibilities</strong>
-              {expData.mainResponsibilities}
-            </p>
-            <p>
-              <strong>Start Date:</strong>
-              {expData.dateFrom}
-            </p>
-            <p>
-              <strong>End Date:</strong>
-              {expData.dateTo}
-            </p>
-
-            <button
-              type="button"
-              onClick={() => setExpData({ ...expData, isSubmitted: false })}
-            >
-              Edit Information
-            </button>
+    <section>
+      <h2>Practical Experience</h2>
+      <div className="experience-list">
+        {experiences.map((exp) => (
+          <div key={exp.id} className="preview-block">
+            <h3>{exp.companyName}</h3>
+            <p>{exp.positionTitle}</p>
+            <p>{exp.dateFrom} - {exp.dateTo}</p>
+            <button onClick={() => setIsAdding(true)}>Edit</button>
           </div>
-        ) : (
-          <form onSubmit={handleSubmit}>
-            <label htmlFor="companyName">Company Name:</label>
-            <input
-              type="text"
-              name="companyName"
-              value={expData.companyName}
-              onChange={handleChange}
-              required
-            />
-            <label htmlFor="positionTitle">Position Title:</label>
-            <input
-              type="text"
-              name="positionTitle"
-              value={expData.positionTitle}
-              onChange={handleChange}
-              required
-            />
-            <label htmlFor="mainResponsibilties">Main Responsibilities</label>
-            <textarea
-              type="text"
-              name="mainResponsibilities"
-              value={expData.mainResponsibilities}
-              onChange={handleChange}
-              required
-            />
-            <label htmlFor="dateFrom">Start Date:</label>
-            <input
-              type="date"
-              name="dateFrom"
-              value={expData.dateFrom}
-              onChange={handleChange}
-              required
-            />
-            <label htmlFor="dateTo">End Date:</label>
-            <input
-              type="date"
-              name="dateTo"
-              value={expData.dateTo}
-              onChange={handleChange}
-              required
-            />
+        ))}
+      </div>
 
-            <button type="submit">Submit</button>
-          </form>
-        )}
-      </section>
-    </div>
+      {isAdding && (
+        <form onSubmit={handleAddExperience}>
+          <input type="text" name="companyName" value={currentExp.companyName} onChange={handleChange} placeholder="Company" required />
+          <input type="text" name="positionTitle" value={currentExp.positionTitle} onChange={handleChange} placeholder="Position" required />
+          <input type="text" name="mainResponsibilities" value={currentExp.mainResponsibilities} onChange={handleChange} placeholder="Responsibilities" required />
+          <input type="date" name="dateFrom" value={currentExp.dateFrom} onChange={handleChange} placeholder="From" required />
+          <input type="date" name="dateTo" value={currentExp.dateTo} onChange={handleChange} placeholder="To" required />
+          <button type="submit">Save Experience</button>
+        </form>
+      )}
+      
+      {!isAdding && (
+        <button onClick={() => setIsAdding(true)}>+ Add Another Position</button>
+      )}
+    </section>
   );
 }
 
