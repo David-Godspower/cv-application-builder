@@ -1,4 +1,5 @@
 import { useState } from "react";
+import '../styles/index.css';
 
 function Education() {
   const [educations, setEducations] = useState([]);
