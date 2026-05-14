@@ -1,4 +1,5 @@
 import { useState } from "react";
+import "../styles/index.css";
 
 function GeneralInfo() {
   const [formData, setFormData] = useState({
@@ -26,7 +27,9 @@ function GeneralInfo() {
       firstName: formData.firstName.trim(),
       middleName: formData.middleName.trim(),
       lastName: formData.lastName.trim(),
-      email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim().toLowerCase()),
+      email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+        formData.email.trim().toLowerCase(),
+      ),
       phoneNumber: /^\+?[0-9\s\-()]+$/.test(formData.phoneNumber.trim()),
       isSubmitted: true,
     };
@@ -38,10 +41,12 @@ function GeneralInfo() {
       <section>
         <h2>General Information</h2>
         {formData.isSubmitted ? (
-          <div className="preview">
+          <div className="preview-block">
             <p>
               <strong>Name: </strong>
-              {[formData.firstName, formData.middleName, formData.lastName].filter(Boolean).join(" ")}
+              {[formData.firstName, formData.middleName, formData.lastName]
+                .filter(Boolean)
+                .join(" ")}
             </p>
             <p>
               <strong>Email: </strong>
