@@ -1,115 +1,60 @@
 import { useState } from "react";
 import "../styles/index.css";
 
-function GeneralInfo() {
+function GeneralInfo({ onChange }) {
   const [formData, setFormData] = useState({
     firstName: "",
     middleName: "",
     lastName: "",
     email: "",
     phoneNumber: "",
-    isSubmitted: false,
   });
+
+  const [isEditing, setIsEditing] = useState(true);
 
   function handleChange(event) {
     const { name, value } = event.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  }
-
-  function handleSubmit(event) {
-    event.preventDefault();
-    const cleanedData = {
-      ...formData,
-      firstName: formData.firstName.trim(),
-      middleName: formData.middleName.trim(),
-      lastName: formData.lastName.trim(),
-      email: formData.email.trim().toLowerCase(),
-      phoneNumber: formData.phoneNumber.trim(),
-      isSubmitted: true,
-    };
-    
-    setFormData(cleanedData);
+    const updatedData = { ...formData, [name]: value };
+    setFormData(updatedData);
+    onChange(updatedData);
   }
 
   return (
-    <section>
-      {formData.isSubmitted ? (
-        <div className="cv-header-preview">
-          <h1>
-            {[formData.firstName, formData.middleName, formData.lastName]
-              .filter(Boolean)
-              .join(" ")}
-          </h1>
-          <div className="contact-info">
-            <span>{formData.email}</span>
-            <span className="separator">|</span>
-            <span>{formData.phoneNumber}</span>
-          </div>
-
-          <div className="admin-controls">
-            <button
-              type="button" 
-              className="edit-button"
-              onClick={() => setFormData({ ...formData, isSubmitted: false })}
-            >
-              Edit Contact Info
-            </button>
-          </div>
+    <section className="editor-section">
+      <h2>General Information</h2>
+      
+      {!isEditing ? (
+        <div className="admin-item-card">
+          <p><strong>{[formData.firstName, formData.lastName].join(" ")}</strong></p>
+          <p>{formData.email}</p>
+          <button className="edit-button" onClick={() => setIsEditing(true)}>
+            Edit Details
+          </button>
         </div>
       ) : (
-        <>
-          <h2>General Information</h2>
-          <form onSubmit={handleSubmit}>
-            <label htmlFor="firstName">First Name:</label>
-            <input
-              id="firstName"
-              type="text"
-              name="firstName"
-              value={formData.firstName}
-              onChange={handleChange}
-              required
-            />
-            <label htmlFor="middleName">Middle Name:</label>
-            <input
-              id="middleName"
-              type="text"
-              name="middleName"
-              value={formData.middleName}
-              onChange={handleChange}
-            />
-            <label htmlFor="lastName">Last Name:</label>
-            <input
-              id="lastName"
-              type="text"
-              name="lastName"
-              value={formData.lastName}
-              onChange={handleChange}
-              required
-            />
-            <label htmlFor="email">Email:</label>
-            <input
-              id="email"
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-            <label htmlFor="phoneNumber">Phone Number:</label>
-            <input
-              id="phoneNumber"
-              type="tel"
-              name="phoneNumber"
-              value={formData.phoneNumber}
-              onChange={handleChange}
-              required
-            />
-            <button type="submit">Save Information</button>
-          </form>
-        </>
+        <form onSubmit={(e) => { e.preventDefault(); setIsEditing(false); }}>
+          <div className="form-row">
+            <div>
+              <label>First Name</label>
+              <input name="firstName" value={formData.firstName} onChange={handleChange} required />
+            </div>
+            <div>
+              <label>Last Name</label>
+              <input name="lastName" value={formData.lastName} onChange={handleChange} required />
+            </div>
+          </div>
+          
+          <label>Middle Name (Optional)</label>
+          <input name="middleName" value={formData.middleName} onChange={handleChange} />
+
+          <label>Email</label>
+          <input type="email" name="email" value={formData.email} onChange={handleChange} required />
+
+          <label>Phone Number</label>
+          <input type="tel" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} required />
+
+          <button type="submit" className="save-btn">Save Contact Info</button>
+        </form>
       )}
     </section>
   );
