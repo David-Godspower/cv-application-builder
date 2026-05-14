@@ -58,7 +58,7 @@ function GeneralInfo() {
             </p>
 
             <button
-              type="button"
+              type="button" className="edit-button"
               onClick={() => setFormData({ ...formData, isSubmitted: false })}
             >
               Edit Information
