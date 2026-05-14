@@ -62,10 +62,10 @@ function Experience({ items, setItems }) {
       {isAdding && (
         <form onSubmit={handleAddExperience}>
           <label htmlFor="companyName">Company Name:</label>
-          <input id="companyName" type="text" name="companyName" value={currentExp.companyName} onChange={handleChange} placeholder="e.g. Oyo State Bureau of ICT" required />
+          <input id="companyName" type="text" name="companyName" value={currentExp.companyName} onChange={handleChange} placeholder="e.g. Google" required />
           
           <label htmlFor="positionTitle">Position Title:</label>
-          <input id="positionTitle" type="text" name="positionTitle" value={currentExp.positionTitle} onChange={handleChange} placeholder="e.g. ICT Unit Intern" required />
+          <input id="positionTitle" type="text" name="positionTitle" value={currentExp.positionTitle} onChange={handleChange} placeholder="e.g. Software Engineer" required />
           
           <label htmlFor="mainResponsibilities">Main Responsibilities:</label>
           <textarea id="mainResponsibilities" name="mainResponsibilities" value={currentExp.mainResponsibilities} onChange={handleChange} placeholder="What did you achieve?" required />
