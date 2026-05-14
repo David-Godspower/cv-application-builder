@@ -37,7 +37,6 @@ function GeneralInfo() {
     <div>
       <section>
         <h2>General Information</h2>
-        <p>This is where we will collect your name, email and phone number</p>
         {formData.isSubmitted ? (
           <div className="preview">
             <p>
