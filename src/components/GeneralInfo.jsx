@@ -8,9 +8,9 @@ function GeneralInfo() {
     lastName: "",
     email: "",
     phoneNumber: "",
-
     isSubmitted: false,
   });
+
   function handleChange(event) {
     const { name, value } = event.target;
     setFormData({
@@ -21,50 +21,47 @@ function GeneralInfo() {
 
   function handleSubmit(event) {
     event.preventDefault();
-
     const cleanedData = {
       ...formData,
       firstName: formData.firstName.trim(),
       middleName: formData.middleName.trim(),
       lastName: formData.lastName.trim(),
-      email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
-        formData.email.trim().toLowerCase(),
-      ),
-      phoneNumber: /^\+?[0-9\s\-()]+$/.test(formData.phoneNumber.trim()),
+      email: formData.email.trim().toLowerCase(),
+      phoneNumber: formData.phoneNumber.trim(),
       isSubmitted: true,
     };
+    
     setFormData(cleanedData);
   }
 
   return (
-    <div>
-      <section>
-        <h2>General Information</h2>
-        {formData.isSubmitted ? (
-          <div className="preview-block">
-            <p>
-              <strong>Name: </strong>
-              {[formData.firstName, formData.middleName, formData.lastName]
-                .filter(Boolean)
-                .join(" ")}
-            </p>
-            <p>
-              <strong>Email: </strong>
-              {formData.email}
-            </p>
-            <p>
-              <strong>Phone Number:</strong>
-              {formData.phoneNumber}
-            </p>
+    <section>
+      {formData.isSubmitted ? (
+        <div className="cv-header-preview">
+          <h1>
+            {[formData.firstName, formData.middleName, formData.lastName]
+              .filter(Boolean)
+              .join(" ")}
+          </h1>
+          <div className="contact-info">
+            <span>{formData.email}</span>
+            <span className="separator">|</span>
+            <span>{formData.phoneNumber}</span>
+          </div>
 
+          <div className="admin-controls">
             <button
-              type="button" className="edit-button"
+              type="button" 
+              className="edit-button"
               onClick={() => setFormData({ ...formData, isSubmitted: false })}
             >
-              Edit Information
+              Edit Contact Info
             </button>
           </div>
-        ) : (
+        </div>
+      ) : (
+        <>
+          <h2>General Information</h2>
           <form onSubmit={handleSubmit}>
             <label htmlFor="firstName">First Name:</label>
             <input
@@ -110,12 +107,11 @@ function GeneralInfo() {
               onChange={handleChange}
               required
             />
-
-            <button type="submit">Submit</button>
+            <button type="submit">Save Information</button>
           </form>
-        )}
-      </section>
-    </div>
+        </>
+      )}
+    </section>
   );
 }
 
