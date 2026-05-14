@@ -42,7 +42,10 @@ function Experience() {
             <h3>Company Name: {exp.companyName}</h3>
             <p>Position: {exp.positionTitle}</p>
             <p>Date: {exp.dateFrom} - {exp.dateTo}</p>
-            <button onClick={() => {setCurrentExp(exp); setIsAdding(true);}}>Edit</button>
+            <button onClick={() => {setCurrentExp(exp); const filteredList = experiences.filter(item => item.id !== exp.id); setExperiences(filteredList); setIsAdding(true);}}>Edit</button>
+            <button onClick={() => setEducations(educations.filter(item => item.id !== edu.id))}>
+                Delete
+            </button>
           </div>
         ))}
       </div>
