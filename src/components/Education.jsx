@@ -41,7 +41,7 @@ function Education() {
 
   return (
     <section>
-      <h2>Education</h2>
+      <h2>Education Background</h2>
       <div className="education-list">
         {educations.map((edu) => (
           <div key={edu.id} className="preview-block">
