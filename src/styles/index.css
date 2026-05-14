@@ -70,48 +70,6 @@ input:focus, textarea:focus {
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
-button[type="submit"] {
-  background-color: var(--primary-color);
-  color: white;
-  padding: 0.75rem;
-  border: none;
-  border-radius: 4px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-button[type="submit"]:hover {
-  background-color: #1d4ed8;
-}
-
-.preview-block {
-  position: relative;
-  margin-bottom: 1.5rem;
-  padding: 1rem;
-  border-left: 3px solid var(--primary-color);
-}
-
-.preview-block h3 {
-  font-size: 1.25rem;
-  color: var(--primary-color);
-}
-.preview-block p {
-  color: #4b5563; 
-  margin: 4px 0;
-}
-
-.preview-block p strong {
-  color: var(--text-main);
-  font-weight: 600;
-  margin-right: 5px;
-}
-.button-group {
-  display: flex;
-  gap: 12px;
-  margin-top: 15px;
-}
-
 button {
   padding: 6px 12px;
   border-radius: 4px;
@@ -122,9 +80,17 @@ button {
   transition: all 0.2s ease;
 }
 
-button:hover {
-  background: var(--bg-light);
-  border-color: var(--primary-color);
+button[type="submit"] {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+button[type="submit"]:hover {
+  background-color: #1d4ed8;
 }
 
 button.add-btn {
@@ -137,36 +103,100 @@ button.add-btn {
   margin-top: 10px;
 }
 
-button.add-btn:hover {
-  background-color: rgba(37, 99, 235, 0.05);
-}
 .edit-button {
   background-color: transparent;
   color: var(--primary-color);
-  margin-right: 10px;
   border: 1px solid var(--primary-color);
   font-weight: 600;
 }
-.edit-button:hover {
-  background-color: var(--primary-color);
-  color: white;
-  border-color: var(--primary-color);
-}
+
 button.delete-btn {
   color: #dc2626; 
   background-color: #fef2f2;
   border-color: #fca5a5;
 }
 
-button.delete-btn:hover {
-    background-color: #dc2626;  
-  color: #fef2f2;
-  border-color: #dc2626;
+.cv-header-preview {
+  text-align: center;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 1.5rem;
 }
+
+.cv-header-preview h1 {
+  font-size: 2.2rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+  color: var(--text-main);
+}
+
+.contact-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  color: #4b5563;
+  font-size: 1rem;
+}
+
+.separator {
+  color: var(--primary-color);
+  font-weight: bold;
+}
+
+.preview-block {
+  position: relative;
+  margin-bottom: 1.8rem;
+  padding: 0;
+  border-left: none; 
+}
+
+.preview-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 2px;
+}
+
+.primary-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #111827;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.date-display {
+  font-style: italic;
+  font-size: 0.95rem;
+  color: #4b5563;
+}
+
+.secondary-title {
+  font-weight: 600;
+  color: #374151;
+  font-size: 1rem;
+}
+
+.description-text {
+  color: #4b5563;
+  margin-top: 4px;
+  font-size: 0.95rem;
+}
+
+.admin-controls {
+  margin-top: 0.75rem;
+  display: flex;
+  gap: 10px;
+}
+
+/* --- MISC --- */
 textarea {
   min-height: 120px;
   resize: vertical;
 }
+
 @media print {
   body {
     background: white;
@@ -178,7 +208,7 @@ textarea {
     max-width: 100%;
   }
 
-  button, .hint-text {
+  button, .hint-text, .admin-controls, form {
     display: none !important;
   }
   
@@ -187,6 +217,7 @@ textarea {
     page-break-inside: avoid;
   }
 }
+
 @media (max-width: 600px) {
   body {
     padding: 1rem;
@@ -196,7 +227,7 @@ textarea {
     padding: 1.5rem;
   }
   
-  .button-group {
-    flex-direction: column; 
+  .preview-header {
+    flex-direction: column;
   }
 }
