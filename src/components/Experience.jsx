@@ -42,17 +42,22 @@ function Experience() {
             <h3>Company Name: {exp.companyName}</h3>
             <p>Position: {exp.positionTitle}</p>
             <p>Date: {exp.dateFrom} - {exp.dateTo}</p>
-            <button onClick={() => setIsAdding(true)}>Edit</button>
+            <button onClick={() => {setCurrentExp(exp); setIsAdding(true);}}>Edit</button>
           </div>
         ))}
       </div>
 
       {isAdding && (
         <form onSubmit={handleAddExperience}>
+          <label htmlFor="companyName">Company Name:</label>
           <input type="text" name="companyName" value={currentExp.companyName} onChange={handleChange} placeholder="Company" required />
+          <label htmlFor="positionTitle">Position Title:</label>
           <input type="text" name="positionTitle" value={currentExp.positionTitle} onChange={handleChange} placeholder="Position" required />
+          <label htmlFor="mainResponsibilities">Main Responsibilities:</label>
           <input type="text" name="mainResponsibilities" value={currentExp.mainResponsibilities} onChange={handleChange} placeholder="Responsibilities" required />
+          <label htmlFor="dateFrom">From:</label>
           <input type="date" name="dateFrom" value={currentExp.dateFrom} onChange={handleChange} placeholder="From" required />
+          <label htmlFor="dateTo">To:</label>
           <input type="date" name="dateTo" value={currentExp.dateTo} onChange={handleChange} placeholder="To" required />
           <button type="submit">Save Experience</button>
         </form>
