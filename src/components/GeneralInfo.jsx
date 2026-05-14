@@ -20,7 +20,17 @@ function GeneralInfo() {
 
   function handleSubmit(event) {
     event.preventDefault();
-    setFormData({ ...formData, isSubmitted: true });
+
+    const cleanedData = {
+      ...formData,
+      firstName: formData.firstName.trim(),
+      middleName: formData.middleName.trim(),
+      lastName: formData.lastName.trim(),
+      email: /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email.trim().toLowerCase()),
+      phoneNumber: /^\+?[0-9\s\-()]+$/.test(formData.phoneNumber.trim()),
+      isSubmitted: true,
+    };
+    setFormData(cleanedData);
   }
 
   return (
@@ -32,7 +42,7 @@ function GeneralInfo() {
           <div className="preview">
             <p>
               <strong>Name: </strong>
-              {formData.firstName} {formData.middleName} {formData.lastName}
+              {[formData.firstName, formData.middleName, formData.lastName].filter(Boolean).join(" ")}
             </p>
             <p>
               <strong>Email: </strong>
@@ -54,6 +64,7 @@ function GeneralInfo() {
           <form onSubmit={handleSubmit}>
             <label htmlFor="firstName">First Name:</label>
             <input
+              id="firstName"
               type="text"
               name="firstName"
               value={formData.firstName}
@@ -62,14 +73,15 @@ function GeneralInfo() {
             />
             <label htmlFor="middleName">Middle Name:</label>
             <input
+              id="middleName"
               type="text"
               name="middleName"
               value={formData.middleName}
               onChange={handleChange}
-              required
             />
             <label htmlFor="lastName">Last Name:</label>
             <input
+              id="lastName"
               type="text"
               name="lastName"
               value={formData.lastName}
@@ -78,6 +90,7 @@ function GeneralInfo() {
             />
             <label htmlFor="email">Email:</label>
             <input
+              id="email"
               type="email"
               name="email"
               value={formData.email}
@@ -86,6 +99,7 @@ function GeneralInfo() {
             />
             <label htmlFor="phoneNumber">Phone Number:</label>
             <input
+              id="phoneNumber"
               type="tel"
               name="phoneNumber"
               value={formData.phoneNumber}
