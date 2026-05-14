@@ -1,8 +1,7 @@
 import { useState } from "react";
 import '../styles/index.css';
 
-function Education() {
-  const [educations, setEducations] = useState([]);
+function Education({ items, setItems }) {
   
   const [currentEdu, setCurrentEdu] = useState({
     institutionName: "",
@@ -13,12 +12,6 @@ function Education() {
     id: Date.now()
   });
 
-  const formatDate = (dateString) => {
-    if (!dateString) return "";
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US',{month: 'short', year: 'numeric'});
-  };
-
   const [isAdding, setIsAdding] = useState(true);
 
   const handleChange = (e) => {
@@ -28,7 +21,14 @@ function Education() {
 
   const handleAddEducation = (e) => {
     e.preventDefault();
-    setEducations([...educations, currentEdu]);
+    const exists = items.find(edu => edu.id === currentEdu.id);
+    
+    if (exists) {
+      setItems(items.map(item => item.id === currentExp.id ? currentEdu : item));
+    } else {
+      setItems([...items, currentEdu]);
+    }
+
     setCurrentEdu({
       institutionName: "",
       degree: "",
@@ -41,34 +41,20 @@ function Education() {
   };
 
   return (
-    <section>
+    <section className="editor-section">
       <h2>Education Background</h2>
-      <div className="education-list">
-        {educations.map((edu) => (
-          <div key={edu.id} className="preview-block">
-            <div className="preview-header">
-              <h3 className="primary-title">{edu.institutionName}</h3>
-              <span className="date-display">
-                {formatDate(edu.dateFrom)} — {formatDate(edu.dateTo)}
-              </span>
-            </div>
-            
-            <div className="preview-subheader">
-              <p className="secondary-title">
-                {edu.degree} in {edu.fieldOfStudy}
-              </p>
-            </div>
-
+      <div className="education-list-admin">
+        {items.map((edu) => (
+          <div key={edu.id} className="admin-item-card">
+            <p><strong>{edu.institutionName}</strong></p>
             <div className="admin-controls">
               <button className="edit-button" onClick={() => {
                 setCurrentEdu(edu); 
-                const filteredList = educations.filter(item => item.id !== edu.id);
-                setEducations(filteredList); 
                 setIsAdding(true);
               }}>Edit</button>
               
               <button className="delete-btn" onClick={() => 
-                setEducations(educations.filter(item => item.id !== edu.id))
+                setItems(items.filter(item => item.id !== edu.id))
               }>Delete</button>
             </div>
           </div>
@@ -78,25 +64,33 @@ function Education() {
       {isAdding && (
         <form onSubmit={handleAddEducation}>
           <label htmlFor="institutionName">Institution Name:</label>
-          <input type="text" name="institutionName" value={currentEdu.institutionName} onChange={handleChange} placeholder="Institution" required />
+          <input type="text" name="institutionName" value={currentEdu.institutionName} onChange={handleChange} placeholder="e.g. LAUTECH" required />
+          
           <label htmlFor="degree">Degree:</label>
-          <input type="text" name="degree" value={currentEdu.degree} onChange={handleChange} placeholder="Degree" required />
+          <input type="text" name="degree" value={currentEdu.degree} onChange={handleChange} placeholder="e.g. B.Tech" required />
+          
           <label htmlFor="fieldOfStudy">Field of Study:</label>
-          <input type="text" name="fieldOfStudy" value={currentEdu.fieldOfStudy} onChange={handleChange} placeholder="Field of Study" required />
-          <label htmlFor="dateFrom">From:</label>
-          <input type="date" name="dateFrom" value={currentEdu.dateFrom} onChange={handleChange} placeholder="From" required />
-          <label htmlFor="dateTo">To:</label>
-          <input type="date" name="dateTo" value={currentEdu.dateTo} onChange={handleChange} placeholder="To" required />
-          <button type="submit">Save Education</button>
+          <input type="text" name="fieldOfStudy" value={currentEdu.fieldOfStudy} onChange={handleChange} placeholder="e.g. Computer Engineering" required />
+          
+          <div className="form-row">
+            <div>
+              <label htmlFor="dateFrom">From:</label>
+              <input type="date" name="dateFrom" value={currentEdu.dateFrom} onChange={handleChange} required />
+            </div>
+            <div>
+              <label htmlFor="dateTo">To:</label>
+              <input type="date" name="dateTo" value={currentEdu.dateTo} onChange={handleChange} required />
+            </div>
+          </div>
+          
+          <button type="submit" className="save-btn">Save Education</button>
+          {items.length > 0 && <button type="button" onClick={() => setIsAdding(false)}>Cancel</button>}
         </form>
       )}
 
       {!isAdding && (
         <div className="button-group">
-          {educations.length === 0 && (
-            <p className="hint-text">No education history added yet. Click below to add your school!</p>
-          )}
-          <button onClick={() => setIsAdding(true)}>+ Add Another Education</button>
+          <button className="add-btn" onClick={() => setIsAdding(true)}>+ Add Education</button>
         </div>
       )}
     </section>
